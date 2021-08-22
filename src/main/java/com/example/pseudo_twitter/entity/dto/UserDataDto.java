@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationUserDto {
+public class UserDataDto {
     private String email;
     private String username;
     private String password;

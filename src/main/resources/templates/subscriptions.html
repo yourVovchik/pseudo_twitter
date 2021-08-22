@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Авторизация</title>
@@ -13,22 +14,23 @@
 <div th:replace="component/header :: content"></div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Твиты</li>
+        <li class="breadcrumb-item active" aria-current="page">Подписки</li>
     </ol>
 </nav>
-<div class="row">
-    <div class="col-md-12">
-        <div class="container">
-    <div class="col-md-auto">
-<div class="list-group">
-    <th:block th:each="post : ${posts}">
-        <li class="list-group-item list-group-item-action" th:utext="${post.getAuthor.getUsername}">..</li>
-            <li class="list-group-item list-group-item-action" th:utext="${post.getText}">..</li>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="col-md-auto">
+                    <div class="list-group">
+    <th:block th:each="sub : ${subscriptions}">
+        <a th:href="@{/user/{id}(id = ${sub.getId})}">
+            <li class="list-group-item list-group-item-action" th:utext="${sub.getUsername}">..</li>
+        </a>
     </th:block>
-</div>
-    </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

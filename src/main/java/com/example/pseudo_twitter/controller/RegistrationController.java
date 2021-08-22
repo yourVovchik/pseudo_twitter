@@ -1,6 +1,6 @@
 package com.example.pseudo_twitter.controller;
 
-import com.example.pseudo_twitter.entity.dto.RegistrationUserDto;
+import com.example.pseudo_twitter.entity.dto.UserDataDto;
 import com.example.pseudo_twitter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/registration")
@@ -18,16 +19,13 @@ public class RegistrationController {
     UserService userService;
 
     @GetMapping()
-    public String registration(Model model){
-        model.addAttribute("regUser", new RegistrationUserDto());
-        return "reg";
+    public ModelAndView registration(Model model){
+        return new ModelAndView("reg","regUser",new UserDataDto());
     }
 
     @PostMapping()
-    public String registrationUser(@ModelAttribute("regUser") RegistrationUserDto user){
-        System.out.println(user);
-        System.out.println(user.getEmail());
+    public ModelAndView registrationUser(@ModelAttribute("regUser") UserDataDto user){
         userService.add(user);
-        return "/home";
+        return new ModelAndView("authorization");
     }
 }

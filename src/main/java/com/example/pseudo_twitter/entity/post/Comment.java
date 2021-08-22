@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comments")
+@Table(name = "commend")
 @Entity
 public class Comment extends Post {
-    @OneToOne
+    @ManyToOne
     private Post post;
 }

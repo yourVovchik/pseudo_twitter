@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Профиль</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+</head>
+<body>
+<div th:replace="component/header :: content"></div>
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card p-3">
+    <div class="d-flex align-items-center">
+      <div class="ml-3 w-100" th:object="${user}">
+        <h4 class="mb-0 mt-0" th:utext="${user.getUsername}"/>
+        <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+          <div class="d-flex flex-column"> <span class="articles">Твиты</span> <span class="number1" th:utext="${user.getPostCount()}"></span> </div>
+          <div class="d-flex flex-column"> <span class="followers">Подписки</span> <span class="number2" th:utext="${user.getSubscribersCount()}"></span> </div>
+          <div class="d-flex flex-column"> <span class="followers">Подписчики</span> <span class="number2" th:utext="${user.getFollowerCount()}"></span> </div>
+          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getSex()}"></span> </div>
+          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getCountry()}"></span> </div>
+          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getBirthday()}"></span> </div>
+        </div>
+        <form method="POST" th:action="@{/subscription/{id}(id = ${user.getId})}">
+          <button type="submit" name="submit" value="value" class="link-button">Подписаться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
