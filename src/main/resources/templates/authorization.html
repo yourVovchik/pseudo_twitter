@@ -13,16 +13,23 @@
 <body>
 <div class="container">
     <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Login</h2>
+        <h2 class="form-signin-heading">Вход</h2>
         <p>
-            <label for="username">Username</label>
+            <label for="username">Email</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
         </p>
         <p>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="col-12 mt-2">
+            <button class="btn btn-primary">Войти</button>
+        </div>
+    </form>
+    <form class="form-signin" method="get" action="/registration">
+        <div class="col-12 mt-2">
+            <button class="btn btn-link">Регистрация</button>
+        </div>
     </form>
 </div>
 </body>

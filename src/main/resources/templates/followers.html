@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Авторизация</title>
+    <title>Подписки</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>header_blue</title>
@@ -21,17 +21,21 @@
     <div class="col-md-12">
         <div class="container">
             <div class="col-md-auto">
-                <div class="list-group">
-    <th:block th:each="follower : ${followers}">
-        <a th:href="@{/user/{id}(id = ${follower.getId})}">
-            <li class="list-group-item list-group-item-action" th:utext="${follower.getUsername}">..</li>
-        </a>
-    </th:block>
-</div>
-                </div>
+                <ol class="list-group list-group-numbered">
+                    <th:block th:each="follower : ${followers}">
+                        <a th:href="@{/user/{id}(id = ${follower.getId})}"
+                           class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold"><h3 th:utext="${follower.getUsername}"></h3></div>
+                                <h5 th:utext="${follower.getBirthday}"></h5>
+                                <h5 th:utext="${follower.getCountry}"></h5>
+                            </div>
+                        </a>
+                    </th:block>
+                </ol>
             </div>
         </div>
     </div>
-
+</div>
 </body>
 </html>

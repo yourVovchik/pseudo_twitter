@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <title>Авторизация</title>
+    <title>Регистрация</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>header_blue</title>
@@ -11,47 +11,77 @@
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
 </head>
 <body>
-<div th:replace="component/header :: content"></div>
-<div class="container" layout:fragment="content">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="row d-flex justify-content-center">
                 <div class="col-6 justify-content-center">
+                    <h2 class="form-signin-heading">Регистрация</h2>
                     <form th:action="@{/registration}" th:object="${regUser}" method="POST" class="row g-6">
                         <div class="col-md-6">
                             <label for="exampleInputEmail1">Email address</label>
                             <input th:field="*{email}" type="email" class="form-control" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="Enter email">
+                            <td th:if="${#fields.hasErrors('email')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">Password</label>
+                            <label for="exampleInputPassword1">Пароль</label>
                             <input th:field="*{password}" type="password" class="form-control"
                                    id="exampleInputPassword1" placeholder="Password">
+                            <td th:if="${#fields.hasErrors('password')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
-                            <label for="username">Username</label>
+                            <label for="username">Имя</label>
                             <input th:field="*{username}" type="text" class="form-control" id="username"
                                    placeholder="Username">
+                            <td th:if="${#fields.hasErrors('username')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
-                            <label for="country">Country</label>
+                            <label for="country">Страна</label>
                             <input th:field="*{country}" type="text" class="form-control" id="country"
                                    placeholder="Belarus">
+                            <td th:if="${#fields.hasErrors('country')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleFormControlSelect1">Sex</label>
+                            <label for="exampleFormControlSelect1">Пол</label>
                             <select name="sex" class="form-control" id="exampleFormControlSelect1">
                                 <option th:each="sex : ${T(com.example.pseudo_twitter.entity.user.enums.Sex).values()}"
                                         th:value="${sex}" th:field="*{sex}" th:text="${sex}"></option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="birthday">Birthday</label>
+                            <label for="birthday">День Рождения</label>
                             <input th:field="*{birthday}" th:value="*{birthday}" type="date" class="form-control"
                                    id="birthday">
+                            <td th:if="${#fields.hasErrors('birthday')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверная дата!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-12 mt-2">
-                            <button class="btn btn-primary">Sign in</button>
+                            <button class="btn btn-primary">Регистрация</button>
+                        </div>
+                    </form>
+                    <form class="form-signin" method="get" action="/login">
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-link">Вход</button>
                         </div>
                     </form>
                 </div>

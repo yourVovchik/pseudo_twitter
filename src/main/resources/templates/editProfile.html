@@ -2,7 +2,7 @@
 <html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <title>Авторизация</title>
+    <title>Редактировать профиль</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>header_blue</title>
@@ -22,16 +22,31 @@
                             <label for="exampleInputEmail1">Email address</label>
                             <input th:field="*{email}" type="email" class="form-control" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="Enter email">
+                            <td th:if="${#fields.hasErrors('email')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
                             <label for="username">Username</label>
                             <input th:field="*{username}" type="text" class="form-control" id="username"
                                    placeholder="Username">
+                            <td th:if="${#fields.hasErrors('username')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
                             <label for="country">Country</label>
                             <input th:field="*{country}" type="text" class="form-control" id="country"
                                    placeholder="Belarus">
+                            <td th:if="${#fields.hasErrors('country')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
                             <label for="exampleFormControlSelect1">Sex</label>
@@ -44,11 +59,21 @@
                             <label for="birthday">Birthday</label>
                             <input th:field="*{birthday}" th:value="*{birthday}" type="date" class="form-control"
                                    id="birthday">
+                            <td th:if="${#fields.hasErrors('birthday')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-md-6">
                             <label for="exampleInputPassword1">Password</label>
                             <input th:field="*{password}" type="password" class="form-control"
                                    id="exampleInputPassword1" placeholder="Password">
+                            <td th:if="${#fields.hasErrors('password')}">
+                                <div class="alert alert-warning" role="alert">
+                                    Неверный формат!
+                                </div>
+                            </td>
                         </div>
                         <div class="col-12 mt-2">
                             <button class="btn btn-primary">Sign in</button>

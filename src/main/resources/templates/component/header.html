@@ -10,9 +10,15 @@
         <ul class="nav navbar-nav">
           <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/feed}" method="GET">Лента</a>
           <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/feed/post}" method="GET">Твитнуть</a>
-          <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/subscription}" method="GET">Подписки</a>
+          <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/subscription/{id}(id = ${#authentication.getPrincipal().getId()})}" method="GET">Подписки</a>
+          <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+          <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/admin}" method="GET">Пользователи (Admin)</a>
+          </div>
         </ul>
-        <p class="navbar-text navbar-right"><a class="navbar-link login" href="#">Профиль</a>
+        <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/logout}" method="GET">Выйти</a>
+        <p class="navbar-text navbar-right"><a class="navbar-link login" th:href="@{/user/{id}(id = ${#authentication.getPrincipal().getId()})}">
+          <span th:text ="${#authentication.getPrincipal().getUsername()}"></span>
+        </a>
       </div>
     </div>
   </nav>

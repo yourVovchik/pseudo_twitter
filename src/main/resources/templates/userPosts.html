@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Записи</title>
+    <title>Твиты</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>header_blue</title>
@@ -12,11 +12,26 @@
 </head>
 <body>
 <div th:replace="component/header :: content"></div>
-<div class="list-group">
-    <th:block th:each="post : ${posts}">
-        <li class="list-group-item list-group-item-action" th:utext="${post.getText}">..</li>
-        <li class="list-group-item list-group-item-action" th:utext="${post.getAuthor.getUsername}">..</li>
-    </th:block>
+<div class="row">
+    <div class="col-md-12">
+        <div class="container">
+            <div class="col-md-auto">
+                <div class="list-group">
+                    <th:block th:each="post : ${posts}">
+                        <div class="list-group">
+                            <a class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h4 class="mb-1" th:utext="${post.getAuthor.getUsername}"></h4>
+                                    <h6 th:text="${post.getDate()}"></h6>
+                                </div>
+                                <h4 class="mb-1" th:utext="${post.getText}"></h4>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

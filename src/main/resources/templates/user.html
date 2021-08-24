@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Профиль</title>
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
 </head>
 <body>
 <div th:replace="component/header :: content"></div>
 <div class="container mt-5 d-flex justify-content-center">
-  <div class="card p-3">
-    <div class="d-flex align-items-center">
-      <div class="ml-3 w-100" th:object="${user}">
-        <h4 class="mb-0 mt-0" th:utext="${user.getUsername}"/>
-        <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
-          <div class="d-flex flex-column"> <span class="articles">Твиты</span> <span class="number1" th:utext="${user.getPostCount()}"></span> </div>
-          <div class="d-flex flex-column"> <span class="followers">Подписки</span> <span class="number2" th:utext="${user.getSubscribersCount()}"></span> </div>
-          <div class="d-flex flex-column"> <span class="followers">Подписчики</span> <span class="number2" th:utext="${user.getFollowerCount()}"></span> </div>
-          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getSex()}"></span> </div>
-          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getCountry()}"></span> </div>
-          <div class="d-flex flex-column"> <span class="number2" th:utext="${user.getBirthday()}"></span> </div>
+    <div class="card p-3">
+        <div class="d-flex align-items-center">
+            <div class="ml-3 w-100" th:object="${user}">
+                <h4 class="mb-0 mt-0" th:utext="${user.getUsername}"/>
+                <ul class="list-group">
+                    <a th:href="@{/feed/{id}(id = ${user.getId})}" class="list-group-item d-flex justify-content-between align-items-center">
+                        Твиты
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getPostCount()}"/>
+                    </a>
+                    <a th:href="@{/subscription/{id}(id = ${user.getId})}" class="list-group-item d-flex justify-content-between align-items-center">
+                        Подписки
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getSubscribersCount()}"/>
+                    </a>
+                    <a th:href="@{/followers/{id}(id = ${user.getId})}" class="list-group-item d-flex justify-content-between align-items-center">
+                        Подписчики
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getFollowerCount()}"/>
+                    </a>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Пол
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getSex()}"/>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Страна
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getCountry()}"/>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Дата рождения
+                        <span class="badge badge-primary badge-pill" th:utext="${user.getBirthday()}"/>
+                    </li>
+                </ul>
+                <div th:unless="${#authentication.getPrincipal().getId() == user.getId}">
+                    <form method="POST" th:action="@{/subscription/{id}(id = ${user.getId})}">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary">Подписаться</button>
+                    </form>
+                </div>
+                <div th:if="${#authentication.getPrincipal().getId() == user.getId}">
+                    <form method="GET" th:action="@{/user/edit}">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary">Редактировать информацию</button>
+                    </form>
+                    <form method="GET" th:action="@{/user/editPassword/}">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary">Редактировать пароль</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <form method="POST" th:action="@{/subscription/{id}(id = ${user.getId})}">
-          <button type="submit" name="submit" value="value" class="link-button">Подписаться</button>
-        </form>
-      </div>
     </div>
-  </div>
 </div>
 </body>
 </html>

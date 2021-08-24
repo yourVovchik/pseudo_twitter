@@ -4,13 +4,14 @@ import com.example.pseudo_twitter.entity.dto.ProfileUserDto;
 import com.example.pseudo_twitter.entity.dto.UserDataDto;
 import com.example.pseudo_twitter.entity.user.User;
 import com.example.pseudo_twitter.entity.user.enums.Role;
-import com.example.pseudo_twitter.repository.PostRepository;
+import com.example.pseudo_twitter.exception.DuplicateDataException;
+import com.example.pseudo_twitter.exception.NotFoundException;
+import com.example.pseudo_twitter.exception.WrongDataException;
 import com.example.pseudo_twitter.repository.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,80 +32,97 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
 
-    public void add(UserDataDto userDto) {
+    public void add(UserDataDto userDto) throws DuplicateDataException {
         if (!userRepositoryJPA.existsByMail(userDto.getEmail())) {
             User user = createUser(userDto);
             userRepositoryJPA.save(user);
+        }else{
+            throw new DuplicateDataException();
         }
     }
 
-    public void delete(Long id){
+    public void delete(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             userRepositoryJPA.deleteById(id);
+        }else{
+            throw new NotFoundException();
         }
     }
 
 
-    public Set<User> getSubById(Long id){
+    public Set<User> getSubById(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             return userRepositoryJPA.getById(id).getSubscriptions();
+        }else{
+            throw new NotFoundException();
         }
-        return null;
     }
 
-    public void setRoleAdmin(Long id){
+    public void setRoleAdmin(Long id) throws NotFoundException {
         if(userRepositoryJPA.existsById(id)){
             User user = userRepositoryJPA.getById(id);
             user.getRoles().add(new Role(2L,"ROLE_ADMIN"));
             userRepositoryJPA.save(user);
+        }else{
+            throw new NotFoundException();
         }
     }
 
-    public Set<User> getFollowerById(Long id){
+    public Set<User> getFollowerById(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             return userRepositoryJPA.getById(id).getFollowers();
+        }else{
+            throw new NotFoundException();
         }
-        return null;
     }
 
-    public void subscribe(Long subscribe_id, Long follower_id){
+    public void subscribe(Long subscribe_id, Long follower_id) throws NotFoundException {
         if (userRepositoryJPA.existsById(follower_id) && userRepositoryJPA.existsById(subscribe_id)) {
             User user = userRepositoryJPA.getById(follower_id);
             user.getSubscriptions().add(userRepositoryJPA.getById(subscribe_id));
             userRepositoryJPA.save(user);
+        }else{
+            throw new NotFoundException();
         }
     }
 
-    public User getById(Long id) {
+    public User getById(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             return userRepositoryJPA.getById(id);
+        }else{
+            throw new NotFoundException();
         }
-        return null;
     }
 
-    public UserDataDto getUserForm(Long id) {
+    public UserDataDto getUserForm(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             return createDataUserDto(userRepositoryJPA.getById(id));
+        }else{
+            throw new NotFoundException();
         }
-        return null;
     }
 
-    public ProfileUserDto getProfileForm(Long id){
+    public ProfileUserDto getProfileForm(Long id) throws NotFoundException {
         if (userRepositoryJPA.existsById(id)) {
             return createProfileUser(userRepositoryJPA.getById(id));
-        }
-        return null;
-    }
-
-    public void editPublicDataUser(UserDataDto editUser, Long id) {
-        if(checkPassword(editUser.getPassword(),id)){
-            User user = createUser(editUser);
-            user.setId(id);
-            userRepositoryJPA.save(user);
+        }else{
+            throw new NotFoundException();
         }
     }
 
-    private ProfileUserDto createProfileUser(User user){
+    public void editPublicDataUser(UserDataDto editUser, Long id) throws NotFoundException, WrongDataException {
+        if(userRepositoryJPA.existsById(id)){
+            if(checkPassword(editUser.getPassword(),id)){
+                User user = createUser(editUser);
+                user.setId(id);
+                userRepositoryJPA.save(user);
+            }else{
+                throw new WrongDataException();
+            }
+        }throw new NotFoundException();
+    }
+
+    private ProfileUserDto createProfileUser(User user) throws NotFoundException {
         ProfileUserDto profileUserDto = new ProfileUserDto();
         profileUserDto.setId(user.getId());
         profileUserDto.setUsername(user.getUsername());
@@ -124,12 +142,19 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public void editPassword(String oldPassword, String newPassword, Long id){
-        if(checkPassword(oldPassword,id)){
-            User user = userRepositoryJPA.getById(id);
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepositoryJPA.save(user);
+    public void editPassword(String oldPassword, String newPassword, Long id) throws NotFoundException, WrongDataException {
+        if(userRepositoryJPA.existsById(id)){
+            if(checkPassword(oldPassword,id)){
+                User user = userRepositoryJPA.getById(id);
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepositoryJPA.save(user);
+            }else{
+                throw new WrongDataException();
+            }
+        }else{
+            throw new NotFoundException();
         }
+
     }
 
 

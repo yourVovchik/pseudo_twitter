@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Error</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>header_blue</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+</head>
+<body>
+<div th:replace="component/header :: content"></div>
+<h2>Упс! Что-то пошло не так</h2>
+<span class="badge badge-primary badge-pill" th:utext="${message.getText()}"/>
+</body>
+</html>

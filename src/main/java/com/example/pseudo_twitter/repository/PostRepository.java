@@ -13,7 +13,7 @@ import java.util.Set;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> getAllBy();
-    List<Post> getByAuthor(User author);
+    List<Post> getByAuthorOrderByDateDesc(User author);
     @Query("select ba from Post ba where ba.author in :authors order by ba.date desc ")
     List<Post> getByAuthors(@Param("authors") Set<User> authors);
 }

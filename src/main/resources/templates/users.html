@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Авторизация</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>header_blue</title>
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <meta charset="utf-8">
+    <title>Пользователи</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header_blue</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
 </head>
 <body>
 <div th:replace="component/header :: content"></div>
 <div class="row">
-  <div class="col-md-12">
-    <div class="container">
-      <div class="col-md-auto">
-<div class="list-group">
-  <th:block th:each="user : ${users}">
-    <a th:href="@{/user/{id}(id = ${user.getId})}">
-    <li class="list-group-item list-group-item-action" th:utext="${user.getUsername}">..</li>
-    </a>
-    <form th:action="@{/admin/appoint/{id}(id=${user.getId})}" th:method="POST" >
-      <button type="submit" class="btn btn-warning">Назначить администратором</button>
-    </form>
-    <form th:action="@{/admin/delete/{id}(id=${user.getId})}" th:method="POST" >
-      <button type="submit" class="btn btn-danger">Удалить</button>
-    </form>
-  </th:block>
-</div>
-      </div>
+    <div class="col-md-12">
+        <div class="container">
+            <div class="col-md-auto">
+                <ol class="list-group list-group-numbered">
+                    <th:block th:each="user : ${users}">
+                        <a th:href="@{/user/{id}(id = ${user.getId})}"
+                           class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold"><h3 th:utext="${user.getUsername}"></h3></div>
+                                <h5 th:utext="${user.getBirthday}"></h5>
+                                <h5 th:utext="${user.getCountry}"></h5>
+                            </div>
+                        </a>
+                        <form th:action="@{/admin/appoint/{id}(id=${user.getId})}" th:method="POST">
+                            <button type="submit" class="btn btn-warning">Назначить администратором</button>
+                        </form>
+                        <form th:action="@{/admin/delete/{id}(id=${user.getId})}" th:method="POST">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </th:block>
+                </ol>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<!--<div class="row">-->
+<!--    <div class="col-md-12">-->
+<!--        <div class="container">-->
+<!--            <div class="col-md-auto">-->
+<!--                <div class="list-group">-->
+<!--                    <th:block th:each="user : ${users}">-->
+<!--                        <a th:href="@{/user/{id}(id = ${user.getId})}">-->
+<!--                            <li class="list-group-item list-group-item-action" th:utext="${user.getUsername}">..</li>-->
+<!--                        </a>-->
+<!--                        <form th:action="@{/admin/appoint/{id}(id=${user.getId})}" th:method="POST">-->
+<!--                            <button type="submit" class="btn btn-warning">Назначить администратором</button>-->
+<!--                        </form>-->
+<!--                        <form th:action="@{/admin/delete/{id}(id=${user.getId})}" th:method="POST">-->
+<!--                            <button type="submit" class="btn btn-danger">Удалить</button>-->
+<!--                        </form>-->
+<!--                    </th:block>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 </body>
 </html>
